@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Annotation profile for yudao" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="D:/maven-local-repository/org/springframework/boot/spring-boot-configuration-processor/3.1.3/spring-boot-configuration-processor-3.1.3.jar" />
+          <entry name="D:/maven-local-repository/org/projectlombok/lombok/1.18.28/lombok-1.18.28.jar" />
+          <entry name="D:/maven-local-repository/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="D:/maven-local-repository/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+        </processorPath>
+        <module name="yudao-spring-boot-starter-job" />
+        <module name="yudao-server" />
+        <module name="yudao-module-system-biz" />
+        <module name="yudao-spring-boot-starter-redis" />
+        <module name="yudao-spring-boot-starter-mybatis" />
+        <module name="yudao-spring-boot-starter-protection" />
+        <module name="yudao-module-member-api" />
+        <module name="yudao-spring-boot-starter-file" />
+        <module name="yudao-spring-boot-starter-biz-tenant" />
+        <module name="yudao-spring-boot-starter-captcha" />
+        <module name="yudao-spring-boot-starter-biz-pay" />
+        <module name="yudao-spring-boot-starter-websocket" />
+        <module name="yudao-module-member-biz" />
+        <module name="yudao-spring-boot-starter-mq" />
+        <module name="yudao-spring-boot-starter-banner" />
+        <module name="yudao-common" />
+        <module name="yudao-spring-boot-starter-excel" />
+        <module name="yudao-spring-boot-starter-biz-dict" />
+        <module name="yudao-spring-boot-starter-biz-sms" />
+        <module name="yudao-spring-boot-starter-test" />
+        <module name="yudao-spring-boot-starter-biz-data-permission" />
+        <module name="yudao-spring-boot-starter-security" />
+        <module name="yudao-spring-boot-starter-web" />
+        <module name="fzu-sme" />
+        <module name="yudao-spring-boot-starter-biz-ip" />
+        <module name="yudao-spring-boot-starter-biz-operatelog" />
+        <module name="yudao-module-infra-api" />
+        <module name="yudao-spring-boot-starter-monitor" />
+        <module name="yudao-module-infra-biz" />
+        <module name="yudao-spring-boot-starter-biz-error-code" />
+        <module name="yudao-spring-boot-starter-flowable" />
+        <module name="yudao-spring-boot-starter-biz-social" />
+        <module name="yudao-module-system-api" />
+        <module name="yudao-spring-boot-starter-biz-weixin" />
+        <module name="yudao-spring-boot-starter-desensitize" />
+      </profile>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="yudao-sso-demo-by-code" />
+        <module name="yudao-sso-demo-by-password" />
+      </profile>
+    </annotationProcessing>
+  </component>
+</project>

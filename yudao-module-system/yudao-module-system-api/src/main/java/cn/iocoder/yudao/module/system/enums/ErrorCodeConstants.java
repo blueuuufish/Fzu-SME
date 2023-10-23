@@ -163,4 +163,6 @@ public interface ErrorCodeConstants {
     // ========== 站内信发送 1-002-028-000 ==========
     ErrorCode NOTIFY_SEND_TEMPLATE_PARAM_MISS = new ErrorCode(1_002_028_000, "模板参数({})缺失");
 
+    // 排课系统
+    ErrorCode SME_COURSE_SCHEDULE_NOT_EXISTS = new ErrorCode(10086, "排课不存在");
 }
