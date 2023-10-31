@@ -65,6 +65,12 @@
     <file url="file://$PROJECT_DIR$/yudao-framework/yudao-spring-boot-starter-web/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/yudao-framework/yudao-spring-boot-starter-websocket/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/yudao-framework/yudao-spring-boot-starter-websocket/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yudao-module-fzu/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yudao-module-fzu/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yudao-module-fzu/yudao-module-fzu-api/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yudao-module-fzu/yudao-module-fzu-api/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yudao-module-fzu/yudao-module-fzu-biz/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/yudao-module-fzu/yudao-module-fzu-biz/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/yudao-module-infra/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/yudao-module-infra/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/yudao-module-infra/yudao-module-infra-api/src/main/java" charset="UTF-8" />

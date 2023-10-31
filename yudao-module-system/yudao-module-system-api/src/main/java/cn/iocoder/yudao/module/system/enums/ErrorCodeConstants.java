@@ -165,4 +165,5 @@ public interface ErrorCodeConstants {
 
     // 排课系统
     ErrorCode SME_COURSE_SCHEDULE_NOT_EXISTS = new ErrorCode(10086, "排课不存在");
+
 }

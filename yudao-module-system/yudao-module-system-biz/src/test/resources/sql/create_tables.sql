@@ -628,3 +628,18 @@ CREATE TABLE IF NOT EXISTS "system_notify_message" (
     "tenant_id" bigint not null default  '0',
     PRIMARY KEY ("id")
 ) COMMENT '站内信消息表';
+CREATE TABLE IF NOT EXISTS "system_course" (
+                                               "course_id" varchar NOT NULL,
+                                               "name" varchar,
+                                               "term" varchar,
+                                               "classes" varchar,
+                                               "teacher" varchar,
+                                               "week" varchar,
+                                               "start_week" varchar,
+                                               "end_week" varchar,
+                                               "start_lesson" varchar,
+                                               "end_lesson" varchar,
+                                               "location" varchar,
+                                               "id" varchar NOT NULL,
+                                               PRIMARY KEY ("id")
+    ) COMMENT '课程表';

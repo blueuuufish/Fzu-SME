@@ -1,17 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <excludeFromCompile>
+      <directory url="file://$PROJECT_DIR$/yudao-module-fzu/yudao-module-fzu-api/src/main/resources/archetype-resources" includeSubdirectories="true" />
+      <directory url="file://$PROJECT_DIR$/yudao-module-fzu/yudao-module-fzu-biz/src/main/resources/archetype-resources" includeSubdirectories="true" />
+    </excludeFromCompile>
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="yudao-sso-demo-by-code" />
+        <module name="yudao-sso-demo-by-password" />
+      </profile>
       <profile name="Annotation profile for yudao" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="D:/maven-local-repository/org/springframework/boot/spring-boot-configuration-processor/3.1.3/spring-boot-configuration-processor-3.1.3.jar" />
-          <entry name="D:/maven-local-repository/org/projectlombok/lombok/1.18.28/lombok-1.18.28.jar" />
-          <entry name="D:/maven-local-repository/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
-          <entry name="D:/maven-local-repository/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
+          <entry name="/Volumes/sn770/java/jar/maven/repository/org/springframework/boot/spring-boot-configuration-processor/3.1.3/spring-boot-configuration-processor-3.1.3.jar" />
+          <entry name="/Volumes/sn770/java/jar/maven/repository/org/projectlombok/lombok/1.18.28/lombok-1.18.28.jar" />
+          <entry name="/Volumes/sn770/java/jar/maven/repository/org/mapstruct/mapstruct-processor/1.5.5.Final/mapstruct-processor-1.5.5.Final.jar" />
+          <entry name="/Volumes/sn770/java/jar/maven/repository/org/mapstruct/mapstruct/1.5.5.Final/mapstruct-1.5.5.Final.jar" />
         </processorPath>
         <module name="yudao-spring-boot-starter-job" />
         <module name="yudao-server" />
@@ -25,6 +36,7 @@
         <module name="yudao-spring-boot-starter-captcha" />
         <module name="yudao-spring-boot-starter-biz-pay" />
         <module name="yudao-spring-boot-starter-websocket" />
+        <module name="yudao-module-fzu-biz" />
         <module name="yudao-module-member-biz" />
         <module name="yudao-spring-boot-starter-mq" />
         <module name="yudao-spring-boot-starter-banner" />
@@ -42,6 +54,7 @@
         <module name="yudao-module-infra-api" />
         <module name="yudao-spring-boot-starter-monitor" />
         <module name="yudao-module-infra-biz" />
+        <module name="yudao-module-fzu-api" />
         <module name="yudao-spring-boot-starter-biz-error-code" />
         <module name="yudao-spring-boot-starter-flowable" />
         <module name="yudao-spring-boot-starter-biz-social" />
@@ -49,13 +62,10 @@
         <module name="yudao-spring-boot-starter-biz-weixin" />
         <module name="yudao-spring-boot-starter-desensitize" />
       </profile>
-      <profile name="Maven default annotation processors profile" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <module name="yudao-sso-demo-by-code" />
-        <module name="yudao-sso-demo-by-password" />
-      </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="yudao-module-demo-api" target="1.5" />
+      <module name="yudao-module-demo-biz" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>

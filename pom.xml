@@ -16,6 +16,7 @@
         <module>yudao-module-member</module>
         <module>yudao-module-system</module>
         <module>yudao-module-infra</module>
+        <module>yudao-module-fzu</module>
 <!--        <module>yudao-module-bpm</module>-->
 <!--        <module>yudao-module-report</module>-->
 <!--        <module>yudao-module-mp</module>-->
@@ -24,6 +25,9 @@
         <!-- 示例项目 -->
         <module>yudao-example</module>
         <module>fzu-sme</module>
+        <module>yudao-module-fzu</module>
+        <module>yudao-module-fzu/yudao-module-fzu-api</module>
+        <module>yudao-module-fzu/yudao-module-fzu-biz</module>
     </modules>
 
     <name>${project.artifactId}</name>
