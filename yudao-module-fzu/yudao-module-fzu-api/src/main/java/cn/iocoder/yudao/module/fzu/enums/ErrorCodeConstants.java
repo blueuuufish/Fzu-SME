@@ -5,6 +5,8 @@ import cn.iocoder.yudao.framework.common.exception.ErrorCode;
 // ========== 课程 TODO 补充编号 ==========
 public interface ErrorCodeConstants {
     ErrorCode COURSE_NOT_EXISTS = new ErrorCode(10086, "课程不存在");
+    ErrorCode COURSE_STUDENT_NOT_EXISTS = new ErrorCode(10087, "课程学生不存在");
+    ErrorCode STUDENT_NOT_EXISTS = new ErrorCode(10088, "学生不存在");
 }
 
 
