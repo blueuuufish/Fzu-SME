@@ -24,7 +24,6 @@
 <!--        <module>yudao-module-mall</module>-->
         <!-- 示例项目 -->
         <module>yudao-example</module>
-        <module>fzu-sme</module>
         <module>yudao-module-fzu</module>
         <module>yudao-module-fzu/yudao-module-fzu-api</module>
         <module>yudao-module-fzu/yudao-module-fzu-biz</module>
