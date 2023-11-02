@@ -67,4 +67,11 @@ public interface CourseService {
      */
     List<CourseDO> getCourseList(CourseExportReqVO exportReqVO);
 
+    /*
+    * 课程Excel导入
+    * TODO: 暂时不支持更新操作
+    * */
+    CourseUploadResVO uploadCourseExcel(List<CourseUploadExcelVO> uploadCourse, String originalFilename);
+
+    CourseUploadResVO uploadStuListExcel(List<StuListUploadExcelVO> uploadStuLists, String originalFilename);
 }

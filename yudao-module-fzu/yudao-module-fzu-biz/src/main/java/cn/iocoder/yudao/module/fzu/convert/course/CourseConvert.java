@@ -17,6 +17,7 @@ import cn.iocoder.yudao.module.fzu.dal.dataobject.course.CourseDO;
 @Mapper
 public interface CourseConvert {
 
+    // 实例, 可以在别的地方使用这个转换器
     CourseConvert INSTANCE = Mappers.getMapper(CourseConvert.class);
 
     CourseDO convert(CourseCreateReqVO bean);
@@ -31,4 +32,5 @@ public interface CourseConvert {
 
     List<CourseExcelVO> convertList02(List<CourseDO> list);
 
+    CourseDO convert(CourseUploadExcelVO bean);
 }

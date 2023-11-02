@@ -13,12 +13,12 @@ import cn.iocoder.yudao.framework.mybatis.core.dataobject.BaseDO;
 @TableName("fzu_course")
 @KeySequence("fzu_course_seq") // 用于 Oracle、PostgreSQL、Kingbase、DB2、H2 数据库的主键自增。如果是 MySQL 等数据库，可不写。
 @Data
-@EqualsAndHashCode(callSuper = true)
+//@EqualsAndHashCode(callSuper = true)
 @ToString(callSuper = true)
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CourseDO extends BaseDO {
+public class CourseDO {
 
     /**
      * 课程id
@@ -67,7 +67,7 @@ public class CourseDO extends BaseDO {
     /**
      * 主键
      */
-    @TableId
+    @TableId(type = IdType.AUTO)
     private Integer id;
 
 }

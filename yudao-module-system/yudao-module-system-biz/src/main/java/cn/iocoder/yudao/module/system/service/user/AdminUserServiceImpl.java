@@ -428,6 +428,7 @@ public class AdminUserServiceImpl implements AdminUserService {
             AdminUserDO updateUser = UserConvert.INSTANCE.convert(importUser);
             updateUser.setId(existUser.getId());
             userMapper.updateById(updateUser);
+            // resVO的逻辑是去检索数据库中写入的数据，返回成功和失败的数量
             respVO.getUpdateUsernames().add(importUser.getUsername());
         });
         return respVO;

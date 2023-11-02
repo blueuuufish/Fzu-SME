@@ -49,4 +49,5 @@ public interface CourseMapper extends BaseMapperX<CourseDO> {
                 .orderByDesc(CourseDO::getId));
     }
 
+
 }

@@ -1,5 +1,7 @@
 package cn.iocoder.yudao.module.fzu.controller.admin.course;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSupport;
+import io.swagger.v3.oas.annotations.Parameters;
 import org.springframework.web.bind.annotation.*;
 import jakarta.annotation.Resource;
 import org.springframework.validation.annotation.Validated;
@@ -27,6 +29,7 @@ import cn.iocoder.yudao.module.fzu.controller.admin.course.vo.*;
 import cn.iocoder.yudao.module.fzu.dal.dataobject.course.CourseDO;
 import cn.iocoder.yudao.module.fzu.convert.course.CourseConvert;
 import cn.iocoder.yudao.module.fzu.service.course.CourseService;
+import org.springframework.web.multipart.MultipartFile;
 
 @Tag(name = "管理后台 - 课程")
 @RestController
@@ -98,5 +101,36 @@ public class CourseController {
         List<CourseExcelVO> datas = CourseConvert.INSTANCE.convertList02(list);
         ExcelUtils.write(response, "课程.xls", "数据", CourseExcelVO.class, datas);
     }
+
+    /*
+    * 课程表excel导入功能
+    * TODO: 将返回结果同一封装为一个对象
+    * */
+    @PostMapping("/uploadCourse")
+    //@ApiOperationSupport("导入课程")
+    @Parameters({
+            @Parameter(name = "file", description = "Excel 文件", required = true),
+            @Parameter(name = "updateSupport", description = "是否支持更新，默认为 false", example = "true")
+    })
+    public CommonResult<CourseUploadResVO> uploadExcelCourse(@RequestParam("file")MultipartFile file,
+                                              @RequestParam(value = "updateSupport", required = false, defaultValue = "false") Boolean updateSupport) throws Exception {
+        // 读取表名
+        String originalFilename = file.getOriginalFilename();
+
+        // 根据表名获取数据, 如果是课程表, 参数为2
+        if (originalFilename.contains("学生名单")) {
+            List<StuListUploadExcelVO> list = ExcelUtils.readCourseExcel(file, StuListUploadExcelVO.class, 2);
+
+            return success(courseService.uploadStuListExcel(list, originalFilename));
+        }
+        if (originalFilename.contains("研究生课表")) {
+            List<CourseUploadExcelVO> list = ExcelUtils.readCourseExcel(file, CourseUploadExcelVO.class, 1);
+
+            return success(courseService.uploadCourseExcel(list, originalFilename));
+        }
+        // 返回默认状态
+        return new CommonResult<>();
+    }
+
 
 }
