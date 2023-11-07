@@ -1,12 +1,23 @@
 package cn.iocoder.yudao.module.fzu.service.course;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.iocoder.yudao.module.fzu.convert.coursestudent.CourseStudentConvert;
+import cn.iocoder.yudao.module.fzu.convert.student.StudentConvert;
+import cn.iocoder.yudao.module.fzu.dal.dataobject.coursestudent.CourseStudentDO;
+import cn.iocoder.yudao.module.fzu.dal.dataobject.student.StudentDO;
+import cn.iocoder.yudao.module.fzu.dal.mysql.coursestudent.CourseStudentMapper;
+import cn.iocoder.yudao.module.fzu.dal.mysql.student.StudentMapper;
 import org.springframework.stereotype.Service;
 import jakarta.annotation.Resource;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
+
 import cn.iocoder.yudao.module.fzu.controller.admin.course.vo.*;
 import cn.iocoder.yudao.module.fzu.dal.dataobject.course.CourseDO;
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
@@ -29,6 +40,12 @@ public class CourseServiceImpl implements CourseService {
 
     @Resource
     private CourseMapper courseMapper;
+
+    @Resource
+    private CourseStudentMapper courseStudentMapper;
+
+    @Resource
+    private StudentMapper studentMapper;
 
     @Override
     public Integer createCourse(CourseCreateReqVO createReqVO) {
@@ -119,12 +136,42 @@ public class CourseServiceImpl implements CourseService {
                 .updateCourseNames(new ArrayList<>())
                 .failureCourseNames(new HashMap<>()).build();
 
-        handledList.forEach(uploadCourse -> {
-            // TODO: 暂时不需要校验和异常抛出; 判断是否存在; 写入sql逻辑
-            CourseDO courseDO = CourseConvert.INSTANCE.convert(uploadCourse);
-            System.out.println("------------------->" + courseDO + "<-------------------");
-            System.out.println("------------------->" + courseMapper.insert(courseDO) + "<-------------------");
-        });
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
+                2,
+                6,
+                3,
+                TimeUnit.SECONDS,
+                new LinkedBlockingDeque<>(8),
+                Executors.defaultThreadFactory(),
+                new ThreadPoolExecutor.CallerRunsPolicy() // 设置饱和策略为CallerRunsPolicy
+        );
+
+        try {
+            for (CourseUploadExcelVO uploadCourse : handledList) {
+                threadPoolExecutor.execute(() -> {
+                    // TODO: 暂时不需要校验和异常抛出; 判断是否存在; 写入sql逻辑
+                    CourseDO courseDO = CourseConvert.INSTANCE.convert(uploadCourse);
+                    // 注意：这里的数据库操作可能需要单独的事务管理，如果需要的话
+                    courseMapper.insert(courseDO);
+                });
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            threadPoolExecutor.shutdown();
+            try {
+                if (!threadPoolExecutor.awaitTermination(60, TimeUnit.SECONDS)) {
+                    threadPoolExecutor.shutdownNow();
+                    if (!threadPoolExecutor.awaitTermination(60, TimeUnit.SECONDS)) {
+                        System.err.println("线程池中止");
+                    }
+                }
+            } catch (InterruptedException ie) {
+                threadPoolExecutor.shutdownNow();
+                Thread.currentThread().interrupt();
+            }
+        }
+
         return courseUploadResVO;
     }
 
@@ -138,21 +185,69 @@ public class CourseServiceImpl implements CourseService {
         // 提取文件名
         String prefix = "学生名单-";
         String suffix = ".xlsx";
-        if (originalFilename.startsWith(prefix) && originalFilename.endsWith(suffix)) {
-            String corePart = originalFilename.substring(prefix.length(), originalFilename.length() - suffix.length());
-            String courseCode = corePart.substring(0, 9); // 假设课程编码长度为9
-            String courseName = corePart.substring(9); // 课程名称紧跟在课程编码之后
-        }
+
+        String corePart = originalFilename.substring(prefix.length(), originalFilename.length() - suffix.length());
+        Long courseCode = Long.parseLong(corePart.substring(0, 9)); // 假设课程编码长度为9
+        String courseName = corePart.substring(9); // 课程名称紧跟在课程编码之后
 
         CourseUploadResVO courseUploadResVO = CourseUploadResVO.builder()
                 .createCourseNames(new ArrayList<>())
                 .updateCourseNames(new ArrayList<>())
                 .failureCourseNames(new HashMap<>()).build();
 
-        uploadStuLists.forEach(uploadStuList -> {
-            // TODO: 暂时不需要校验和异常抛出; 判断是否存在; 写入sql逻辑
+        /*
+        * 测试使用线程池来优化时间
+        * */
+        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(
+                2,
+                6,
+                3,
+                TimeUnit.SECONDS,
+                new LinkedBlockingDeque<>(8),
+                Executors.defaultThreadFactory(),
+                new ThreadPoolExecutor.CallerRunsPolicy() // 设置饱和策略为CallerRunsPolicy
+        );
 
-        });
+        long startTime = System.currentTimeMillis(); // 获取结束时间
+
+        // TODO: 暂时不需要校验和异常抛出; 判断是否存在; 写入sql逻辑
+        try {
+            uploadStuLists.forEach(uploadStuList -> {
+                threadPoolExecutor.execute(() -> {
+                    StudentDO studentDO = StudentConvert.INSTANCE.convert(uploadStuList);
+                    CourseStudentDO courseStudentDO = CourseStudentConvert.INSTANCE.convert(uploadStuList);
+                    if (studentMapper.selectById(uploadStuList.getStudentId()) == null) studentMapper.insert(studentDO);
+                    // TODO: course-student表未判断是否多次导入
+                    courseStudentDO.setCourseId(courseCode);
+                    courseStudentMapper.insert(courseStudentDO);
+                });
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            // TODO: 需要判断对应的Mapper是否是线程安全的
+            threadPoolExecutor.shutdown(); // Shutdown the pool once all tasks are submitted
+            try {
+                // 等待所有任务完成后再继续执行，如果你想无限期等待，可以使用Long.MAX_VALUE代替超时值
+                if (!threadPoolExecutor.awaitTermination(60, TimeUnit.SECONDS)) {
+                    // 如果任务在超时时间内没有完成，则取消当前执行的任务
+                    threadPoolExecutor.shutdownNow();
+                    // 等待任务响应被取消
+                    if (!threadPoolExecutor.awaitTermination(60, TimeUnit.SECONDS)) {
+                        System.err.println("Pool did not terminate");
+                    }
+                }
+            } catch (InterruptedException ie) {
+                // 如果当前线程也中断，则重新取消
+                threadPoolExecutor.shutdownNow();
+                // 保留中断状态
+                Thread.currentThread().interrupt();
+            }
+        }
+
+        long endTime = System.currentTimeMillis(); // 获取结束时间
+        System.out.println("上传学生名单总耗时：" + (endTime - startTime) + "ms");
+
         return courseUploadResVO;
     }
 }

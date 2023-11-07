@@ -117,15 +117,13 @@ public class CourseController {
         // 读取表名
         String originalFilename = file.getOriginalFilename();
 
-        // 根据表名获取数据, 如果是课程表, 参数为2
+        // 根据表名获取数据, 如果是课程表, 参数为 2
         if (originalFilename.contains("学生名单")) {
             List<StuListUploadExcelVO> list = ExcelUtils.readCourseExcel(file, StuListUploadExcelVO.class, 2);
-
             return success(courseService.uploadStuListExcel(list, originalFilename));
         }
         if (originalFilename.contains("研究生课表")) {
             List<CourseUploadExcelVO> list = ExcelUtils.readCourseExcel(file, CourseUploadExcelVO.class, 1);
-
             return success(courseService.uploadCourseExcel(list, originalFilename));
         }
         // 返回默认状态

@@ -18,7 +18,7 @@ public class StuListUploadExcelVO {
     private String studentId;
 
     @ExcelProperty("姓名")
-    private String studentName;
+    private String name;
 
     @ExcelProperty("院系名称")
     private String departmentName;
@@ -27,7 +27,7 @@ public class StuListUploadExcelVO {
     private String major;
 
     @ExcelProperty("学生类别")
-    private String studentCategory;
+    private String category;
 
     @ExcelProperty("任课教师")
     private String teacher;

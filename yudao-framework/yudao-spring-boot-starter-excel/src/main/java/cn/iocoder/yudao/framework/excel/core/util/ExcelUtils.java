@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -69,22 +70,47 @@ public class ExcelUtils {
     }
 
     public static <T> List<T> readCourseExcel(MultipartFile file, Class<T> head, int jumpRow) throws IOException {
+        List<T> resultList = new ArrayList<>(); // 创建一个列表来存储结果
 
-        return EasyExcel.read(file.getInputStream())
+        EasyExcel.read(file.getInputStream())
                 .head(head)
                 .registerReadListener(new ReadListener<T>() {
                     @Override
                     public void invoke(T data, AnalysisContext context) {
                         // 这里可以处理每一行的数据
+                        if (isValidRow(data)) { // 检查行是否有效
+                            resultList.add(data); // 如果行有效，添加到结果列表
+                        }
                     }
 
                     @Override
                     public void doAfterAllAnalysed(AnalysisContext context) {
                         // 所有数据解析完成后的操作
                     }
+
+                    private boolean isValidRow(T data) {
+                        // TODO: 实现检查行是否有效的逻辑, 目前是有一定问题的
+                        for (Field field : data.getClass().getDeclaredFields()) {
+                            field.setAccessible(true); // 设置私有属性可访问
+                            try {
+                                Object value = field.get(data);
+                                if (value instanceof String stringValue) {
+                                    if (stringValue.contains("制表人")) {
+                                        return false; // 如果包含 "制表人"，则认为这行无效
+                                    }
+                                }
+                            } catch (IllegalAccessException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        return true; // 如果没有找到 "制表人"，则认为这行有效
+                    }
                 })
                 .headRowNumber(jumpRow) // 设置表头行数，这里设置为1将自动跳过第一行
                 .autoCloseStream(false) // 不要自动关闭流
                 .doReadAllSync(); // 同步读取所有的sheet
+
+        return resultList; // 返回结果列表，不包含无效行
     }
+
 }

@@ -4,6 +4,7 @@ import java.util.*;
 
 import cn.iocoder.yudao.framework.common.pojo.PageResult;
 
+import cn.iocoder.yudao.module.fzu.controller.admin.course.vo.StuListUploadExcelVO;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
 import cn.iocoder.yudao.module.fzu.controller.admin.coursestudent.vo.*;
@@ -31,4 +32,5 @@ public interface CourseStudentConvert {
 
     List<CourseStudentExcelVO> convertList02(List<CourseStudentDO> list);
 
+    CourseStudentDO convert(StuListUploadExcelVO bean);
 }
